@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#define N 100
+#define N 500
 using namespace std;
 unordered_map<string, int> mp;
 array<string, N+1> mp1;
