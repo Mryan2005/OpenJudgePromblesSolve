@@ -56,21 +56,18 @@ void findLeftestChildAndPrint(int beginP) {
 }
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
     int t, n, m, typ, x, y;
-    cin >> t;
+    scanf("%d", &t);
     for(int i = 1;i <= t; ++i) {
-        cin >> n >> m;
+        scanf("%d %d", &n, &m);
         createTree(n);
         for(int j = 1; j <= m; ++j) {
-            cin >> typ;
+            scanf("%d", &typ);
             if(typ == 1) {
-                cin >> x >> y;
+                scanf("%d %d", &x, &y);
                 swap(x, y, n);
             } else {
-                cin >> x;
+                scanf("%d", &x);
                 findLeftestChildAndPrint(x);
             }
             
