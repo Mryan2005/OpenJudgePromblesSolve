@@ -1,10 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
-array<int, 20000> a;
-int res;
+array<int, 100003> a;
+long res;
 
 void merge(int begin1, int mid, int end1) {
-    array<int, 20000> b, c;
+    array<int, 100003> b, c;
     int l1 = 0, l2 = 0;
     for(int i = begin1; i <= mid; ++i) {
         b[l1++] = a[i];
@@ -40,6 +40,6 @@ int main() {
         scanf("%d", &a[i]);
     }
     mergesort(0, N-1);
-    printf("%d\n", res);
+    printf("%ld\n", res);
     res = 0;
 }
