@@ -4,35 +4,30 @@ using namespace std;
 pair<long long, long long> map1[10020][10020];   // dis, cost
 
 struct node {
-    int curCityId;
     long long curDis;
     long long curCost;
 };
 
-pair<long long, long long> res;
+node res = {LONG_MAX, LONG_MAX}, cur;
 
-void bfs(int N, long long K) {
-    queue<node> q;    // curCity, (curDis, curCost)
-	bool flag = false;
-    q.push({1, 0, 0});
-    while (!q.empty()) {
-        long long curCity = q.front().curCityId;
-        if(curCity == N && q.front().curCost <= K) {
-            res = make_pair(q.front().curDis, q.front().curCost);
-			return;
-		} else if(q.front().curCost > K) {
-			q.pop();
-			continue;
-		}
-        for(int i = 1; i <= N; ++i) {
-            if(map1[curCity][i].first != 0) {
-                long long curDis = q.front().curDis+map1[curCity][i].first, curCost = q.front().curCost+map1[curCity][i].second;
-                q.push({i, curDis, curCost});
-            }
+void dfs(int curId, int N, int K) {
+    if(cur.curCost > K) return;
+    if(curId == N) {
+        if(cur.curCost <= K && cur.curDis < res.curDis) {
+            res.curCost = cur.curCost;
+            res.curDis = cur.curDis;
         }
-		q.pop();
+        return;
     }
-	return;
+    for(int i = 1; i <= N; ++i) {
+        if(map1[curId][i].first != 0) {
+            cur.curDis += map1[curId][i].first;
+            cur.curCost += map1[curId][i].second;
+            dfs(i, N, K);
+            cur.curDis -= map1[curId][i].first;
+            cur.curCost -= map1[curId][i].second;
+        }
+    }
 }
 
 int main() {
@@ -45,5 +40,7 @@ int main() {
         cin >> S >> D >> L >> T;
         map1[S][D] = make_pair(L, T);
     }
-	bfs(N, K);
+    cur = {0, 0};
+	dfs(1, N, K);
+    cout << res.curDis;
 }
