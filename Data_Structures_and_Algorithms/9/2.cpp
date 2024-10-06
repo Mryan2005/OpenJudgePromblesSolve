@@ -1,30 +1,37 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct LoserTreeNode {
-    int index;
-    int data;
-};
-
+int a[1024];
+deque<int> res;
 /*
  * input: begin1, end1, vector, &winner
- * return: LoserTree* Loser, winner
+ * return: winner
  */
-void createLoserTree(vector<int> nums, int level) {
 
+int createLoserTree(int begin, int end) {
+    if(begin >= end) return begin;
+    else {
+        int winner1 = createLoserTree(begin, (begin+end)/2);
+        int winner2 = createLoserTree((begin+end)/2, end-1);
+        if(a[winner1] > a[winner2]) {
+            res.push_front(winner1);
+            return winner2;
+        } else {
+            res.push_front(winner2);
+            return winner1;
+        }
+    }
 }
 
+
 int main() {
-    int n, m, temp;   // itemsCount, changeCount
-    vector<int> nums;
-    deque<int> Q;
-    scanf("%d %d", &n, &m);
-    nums.reserve(n);
-    for(int i = 1; i <= n; ++i) {
-        scanf("%d", &temp);
-        nums.insert(nums.end(), temp);
-        Q.push_back(i-1);
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    int n, m;
+	cin >> n >> m;
+    for(int i = 0; i < n; ++i) {
+        cin >> a[i];
     }
-    LoserTree *Loser, *Winner;
-    createLoserTree(0, n-1, nums, &Winner, &Loser);
+    createLoserTree(0, n);
 }
