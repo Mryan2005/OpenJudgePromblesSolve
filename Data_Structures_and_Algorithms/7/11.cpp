@@ -18,7 +18,7 @@ void initMap_() {
 void initwl() {
     for(int i = 0; i < 26; ++i) {
         wl[i] = 'A'+i;
-        mp1[i] = i;
+        mp1['A'+i] = i;
         weight[i] = INT_MAX;
         isSelect[i] = false;
     }
