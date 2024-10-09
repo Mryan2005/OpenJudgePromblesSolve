@@ -3,7 +3,7 @@ using namespace std;
 
 int reres;
 unordered_map<char, int> mp1;
-int map_[26][26], weight[26], parent[26];
+int map_[26][26], weight[26], parent[26], minDis = INT_MAX, minid;
 char wl[26];
 bool isSelect[26];
 
@@ -47,9 +47,9 @@ void add(int nodeId) {
 }
 
 void solve(int n) {
-    parent[0] = -1;
-    weight[0] = 0;
-    int nimId = 0;
+    parent[minid] = -1;
+    weight[minid] = 0;
+    int nimId = minid;
     while(n--) {
         add(nimId);
         nimId = findMin();
@@ -65,6 +65,10 @@ void inputData(int n) {
             cin >> d >> c;
             map_[w-'A'][d-'A'] = c;
             map_[d-'A'][w-'A'] = c;
+            if(minDis > c) {
+                minDis = c;
+                minid = w-'A';
+            }
         }
     }
 }
