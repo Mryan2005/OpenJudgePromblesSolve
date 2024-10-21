@@ -1,71 +1,55 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define MAXN 10000
 
-map<int, vector<int>> mp;
+int a[MAXN][MAXN];
+
+void init(int n) {
+    for(int i = 1; i <= n; ++i) a[0][i] = i;
+    for(int i = 1; i <= MAXN; ++i) {
+        for(int j = 0; j <= n; ++j) a[i][j] = -1;
+    }
+}
 
 int main() {
-    int N, M, t, k;
+    int N, M, t, k, max = 1;
     cin >> N;
+    init(N);
     for(int i = 1; i <= N; ++i) {
         cin >> t;
         for(int j = 1; j <= t; ++j) {
             cin >> k;
-            mp[i].push_back(k);
+            max = max > k? max: k;
+            a[k][0] = k;
+            a[k][i] = 1;
         }
-        sort(mp[i].begin(), mp[i].end());
     }
     cin >> M;
+    int check[MAXN];
     for(int i = 1; i <= M; ++i) {
-        vector<int> res, temp;
-        for(int j = 1; j <= N; ++j) {
-            cin >> k;
-            switch (k) {
-            case 1:
-                if(j == 1) {
-                    for(auto t: mp[j]) {
-                        res.push_back(t);
-                    }
-                } else {
-                    for(auto t: mp[j]) {
-                        for(int l = 0; l < res.size(); ++l) {
-                            if(t == res[l]) {
-                                temp.push_back(t);
-                                break;
-                            }
-                        }
-                    }
-                    res.clear();
-                    for(auto l: temp) {
-                        res.push_back(l);
-                    }
-                    temp.clear();
+        vector<int> res;
+        for (int i = 1; i <= N; ++i) cin >> check[i];
+        for(int i = 1; i <= max; ++i) {
+            int flag = 0;
+            if(a[i][0] == -1) continue;
+            for(int j = 1; j <= N; ++j) {
+                if(check[j] == 0) continue;
+                else if(check[j] != a[i][j]) {
+                    flag = 1;
                 }
-                break;
-            case 0:
-                break;
-            case -1:
-                if(j == 1) {
-                    break;
-                }
-                for(int k = 0; k < mp[j].size(); ++k) {
-                    for(int l = 0; l < res.size(); ++l) {
-                        if(mp[j][k] == res[l]) {
-                            res.erase(res.begin()+l, res.begin()+l+1);
-                            break;
-                        }
-                    }
-                }
-                break;
             }
+            if(flag == 1) {
+                flag = 0;
+                continue;
+            }
+            res.push_back(i);
         }
         if(res.size() == 0) {
             cout << "NOT FOUND" << endl;
         } else {
-            int h = 1;
-            for(auto j: res) {
-                if(h == 1) cout << j;
-                else cout << " " << j ;
-                ++h;
+            for(int i = 0; i < res.size(); ++i) {
+                if(i == 0) cout << res[i];
+                else cout << " " << res[i];
             }
             cout << endl;
         }
